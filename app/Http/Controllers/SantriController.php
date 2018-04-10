@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class SantriController extends Controller
 {
+    public function index()
+    {
+        $santris = Santri::all();
+
+        return view('santri.index', compact('santris'));
+    }
+
     public function create()
     {
         return view('santri.create');
@@ -14,7 +21,13 @@ class SantriController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        // this is for validation
+        $request->validate([
+            'nama' => 'required',
+            'umur' => 'required',
+            'alamat' => 'required',
+            'jenis_kelamin' => 'required',
+        ]);
 
         $nama = $request->nama;
         $umur = $request->umur;
@@ -30,6 +43,6 @@ class SantriController extends Controller
 
         // return view('santri.create');
         // return redirect()->url('santri/create');
-        return redirect()->route('santri.create');
+        return redirect()->route('santri.index');
     }
 }
